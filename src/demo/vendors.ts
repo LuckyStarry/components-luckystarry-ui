@@ -1,0 +1,5 @@
+import Vue from 'vue'
+import Vuex from 'vuex'
+import ElementUI from 'element-ui'
+import VueRouter from 'vue-router'
+import './style/element-ui/index.css'

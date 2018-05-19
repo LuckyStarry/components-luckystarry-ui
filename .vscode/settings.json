@@ -1,0 +1,22 @@
+{
+  "tslint.autoFixOnSave": true,
+  "path-intellisense.mappings": {
+    "src": "${workspaceRoot}/src"
+  },
+  "emmet.syntaxProfiles": {
+    "vue-html": "html",
+    "vue": "html"
+  },
+  "editor.formatOnSave": true,
+  "beautify.language": {
+    "js": {
+      "type": ["javascript", "json"],
+      "filename": [".jshintrc", ".jsbeautify"]
+    },
+    "css": ["css", "scss", "less"],
+    "html": ["htm", "html", "vue"]
+  },
+  "prettier.singleQuote": true,
+  "prettier.semi": false,
+  "vetur.format.defaultFormatter.html": "js-beautify-html"
+}
