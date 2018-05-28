@@ -1,11 +1,11 @@
 import { MenuInfo } from 'luckystarry/models'
-import { Frame } from 'luckystarry/store'
+import { frame } from 'luckystarry/store'
 import UI from './ui'
-export class System extends Frame {
-  constructor(configs: { menus: MenuInfo[] }) {
+export class System extends frame.Frame {
+  constructor() {
     super({
       modules: {
-        ui: new UI(configs)
+        ui: new UI()
       }
     })
   }

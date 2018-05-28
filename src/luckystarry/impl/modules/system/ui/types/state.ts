@@ -1,0 +1,5 @@
+export const LOADING_STATE = 'ls-loading-stage'
+export const USER_INFO = 'ls-user-info'
+export const LAST_UPDATE_TIME = 'ls-last-update-time'
+export const MENUS = 'ls-menus'
+export const SCREEN = 'ls_screen'

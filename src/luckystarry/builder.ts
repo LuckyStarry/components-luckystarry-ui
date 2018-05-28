@@ -1,7 +1,7 @@
 import ElementUI from 'element-ui'
 import { System } from 'luckystarry/impl/modules/system'
 import { MenuInfo } from 'luckystarry/models'
-import { IFrame } from 'luckystarry/store'
+import { frame } from 'luckystarry/store'
 import callback from 'luckystarry/ui/oauth/callback'
 import Vue, { VueConstructor } from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
@@ -16,7 +16,7 @@ export default class builder {
   private _modules: { [key: string]: any }
   private _menus: MenuInfo[]
 
-  modules(modules: { [key: string]: IFrame }): builder {
+  modules(modules: { [key: string]: frame.IFrame }): builder {
     this._modules = Object.assign({}, modules)
     return this
   }
@@ -33,14 +33,15 @@ export default class builder {
 
   build(app: VueConstructor<Vue>, configs?: { el?: string }) {
     configs = Object.assign({ el: '#app' }, configs)
-    this._modules['system'] = new System({ menus: this._menus })
     let routes = menusToRoutes(this._menus)
     routes.push({
       path: this._callbackUrl,
       meta: { title: '登陆成功' },
       component: callback
     })
-    const store = new Vuex.Store({ modules: this._modules })
+    const store = new Vuex.Store({
+      modules: Object.assign({ ['system']: new System() }, this._modules)
+    })
     const router = new VueRouter({ mode: 'history', routes })
 
     return new Vue({ el: configs.el, store, router, render: h => h(app) })
