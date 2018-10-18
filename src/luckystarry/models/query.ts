@@ -1,6 +1,7 @@
 export interface IQuery {
   PageIndex: number
   PageSize: number
+  ToQuery(): any
 }
 
 export class Query implements IQuery {
@@ -26,5 +27,12 @@ export class Query implements IQuery {
 
   public get PageSize(): number {
     return this.size
+  }
+
+  public ToQuery(): any {
+    return {
+      PageIndex: this.PageIndex,
+      PageSize: this.PageSize
+    }
   }
 }

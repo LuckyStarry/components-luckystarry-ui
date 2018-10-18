@@ -1,1 +1,1 @@
-export const VISIBLE_UPDATE = 'ls-visible-update'
+export const VISIBLE_UPDATE = 'visible-update'

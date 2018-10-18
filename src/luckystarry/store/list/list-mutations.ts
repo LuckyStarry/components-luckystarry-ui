@@ -1,7 +1,7 @@
 import * as models from '../../models'
 import * as frame from '../frame'
-import { IListState } from './list-state'
 import * as types from './types'
+import { IListState } from './list-state'
 
 export interface IListMutations<
   TEntity extends models.IEntity,
@@ -14,6 +14,7 @@ export interface IListMutations<
     state: TState,
     result: models.ISearchResultEntity<TEntity>
   )
+  [types.mutations.TABLE_ROW_RESET](state: TState, entity: TEntity)
 }
 
 export class ListMutations<
@@ -39,5 +40,14 @@ export class ListMutations<
   ) {
     state[types.state.TABLE_LIST] = result.List
     state[types.state.TABLE_LIST_TOTAL] = result.Count
+  }
+  public [types.mutations.TABLE_ROW_RESET](state: TState, entity: TEntity) {
+    let list = [...state[types.state.TABLE_LIST]]
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].EqualTo(entity)) {
+        list[i] = entity
+      }
+    }
+    state[types.state.TABLE_LIST] = list
   }
 }

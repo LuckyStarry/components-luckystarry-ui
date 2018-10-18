@@ -1,4 +1,3 @@
-import { Entity } from './entity'
 import { ICloneable } from './cloneable'
 
 export class LoginUser implements ICloneable<LoginUser> {
@@ -6,7 +5,7 @@ export class LoginUser implements ICloneable<LoginUser> {
     Object.assign(this, original)
   }
 
-  public UID: string
+  public UserID: string
   public UserName: string
   public Gender: number
   public Roles: Array<string>
@@ -22,6 +21,6 @@ export class LoginUser implements ICloneable<LoginUser> {
   }
 
   public get isFemale(): boolean {
-    return this.Gender === 0
+    return this.Gender === 2
   }
 }

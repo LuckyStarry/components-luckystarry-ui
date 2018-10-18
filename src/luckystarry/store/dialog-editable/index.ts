@@ -21,5 +21,7 @@ export {
   DialogEditableMutations
 } from './dialog-editable-mutations'
 
+export { factory } from './factory'
+
 import * as types from './types'
 export { types }

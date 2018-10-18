@@ -1,0 +1,6 @@
+export const LOADING_STATE = 'loading-state'
+export const USER_INFO = 'user-info'
+export const LAST_UPDATE_TIME = 'last-update-time'
+export const MENUS = 'menus'
+export const ACTIVED_MENUS = 'actived-menus'
+export const SCREEN = 'screen'

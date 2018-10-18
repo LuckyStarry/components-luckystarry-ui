@@ -1,12 +1,24 @@
 import * as models from '../../models'
 import * as detail from '../detail'
 import * as frame from '../frame'
-import { IDetailEditableActions } from './detail-editable-actions'
+import {
+  IDetailEditableActions,
+  DefaultDetailEditableActions
+} from './detail-editable-actions'
 import { IDetailEditableGetter } from './detail-editable-getter'
-import { IDetailEditableGetters } from './detail-editable-getters'
+import {
+  IDetailEditableGetters,
+  DetailEditableGetters
+} from './detail-editable-getters'
 import { IDetailEditableModules } from './detail-editable-modules'
-import { IDetailEditableMutations } from './detail-editable-mutations'
-import { IDetailEditableState } from './detail-editable-state'
+import {
+  IDetailEditableMutations,
+  DetailEditableMutations
+} from './detail-editable-mutations'
+import {
+  IDetailEditableState,
+  DetailEditableState
+} from './detail-editable-state'
 export interface IDetailEditable<
   TEntity extends models.IEntity,
   TState extends IDetailEditableState<TEntity> = IDetailEditableState<TEntity>,
@@ -92,4 +104,38 @@ export class DetailEditable<
       TMutations,
       TModules,
       TRootState
-    > {}
+    > {
+  constructor(
+    options?: frame.IFrameModuleOptions<
+      TState,
+      TRootState,
+      TGetter,
+      TGetters,
+      TActions,
+      TMutations,
+      TModules
+    >
+  ) {
+    super(
+      frame.utils.OptionsMerge(
+        {
+          state: () => new DetailEditableState<TEntity>(),
+          getters: new DetailEditableGetters<
+            TEntity,
+            TState,
+            TGetter,
+            TRootState
+          >(),
+          actions: new DefaultDetailEditableActions<
+            TEntity,
+            TState,
+            TGetter,
+            TRootState
+          >(),
+          mutations: new DetailEditableMutations<TEntity, TState>()
+        },
+        options
+      )
+    )
+  }
+}

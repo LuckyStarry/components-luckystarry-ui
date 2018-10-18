@@ -1,3 +1,3 @@
-export const OPEN = 'ls-open'
-export const CLOSE = 'ls-close'
-export const VISIBLE_CHANGE = 'ls-visible-change'
+export const OPEN = 'open'
+export const CLOSE = 'close'
+export const VISIBLE_CHANGE = 'visible-change'

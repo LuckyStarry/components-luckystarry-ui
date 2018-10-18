@@ -1,1 +1,1 @@
-export const EDIT_DIALOG = 'ls-edit-dialog'
+export const EDIT_DIALOG = 'edit-dialog'

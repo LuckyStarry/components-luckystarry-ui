@@ -20,7 +20,7 @@ export interface IDialogActions<
   )
 }
 
-export abstract class DialogActions<
+export class DialogActions<
   TState extends IDialogState = IDialogState,
   TGetter extends IDialogGetter<TState> = IDialogGetter<TState>,
   TRootState extends frame.IFrameState = frame.IFrameState

@@ -6,5 +6,8 @@ export { IListModules, ListModules } from './list-modules'
 export { IListMutations, ListMutations } from './list-mutations'
 export { IListState, ListState } from './list-state'
 
+import * as utils from './utils'
 import * as types from './types'
-export { types }
+import * as editable from '../list-editable'
+
+export { utils, types, editable }

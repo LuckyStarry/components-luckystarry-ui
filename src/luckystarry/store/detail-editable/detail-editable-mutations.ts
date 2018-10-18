@@ -9,6 +9,7 @@ export interface IDetailEditableMutations<
 > extends detail.IDetailMutations<TEntity, TState> {
   [types.mutations.SAVING_STATE_UPDATE](state: TState, status: boolean)
   [types.mutations.ORIGINAL_RESET](state: TState, entity: TEntity)
+  [types.mutations.SUBJECT_UPDATE](state: TState, payload: any)
 }
 
 export class DetailEditableMutations<
@@ -22,5 +23,9 @@ export class DetailEditableMutations<
 
   public [types.mutations.ORIGINAL_RESET](state: TState, entity: TEntity) {
     state[types.state.ORIGINAL] = entity
+  }
+
+  public [types.mutations.SUBJECT_UPDATE](state: TState, payload: any) {
+    Object.assign(state[types.state.SUBJECT], payload)
   }
 }

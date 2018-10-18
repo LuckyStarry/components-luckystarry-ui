@@ -7,29 +7,29 @@ export interface ISearchResultEntity<T extends IEntity> {
 
 export class SearchResultEntity<T extends IEntity>
   implements ISearchResultEntity<T> {
-  private _count: number
-  private _list: Array<T>
+  private count: number
+  private list: Array<T>
 
-  constructor(original: { Count: number; List: Array<T> }) {
-    this._count = original.Count
-    this._list = original.List || []
+  constructor(original: { count: number; list: Array<T> }) {
+    this.count = original.count
+    this.list = original.list || []
   }
 
   public get Count(): number {
-    return this._count
+    return this.count
   }
 
   public get List(): Array<T> {
-    return this._list
+    return this.list
   }
 
   public static Create<U extends IEntity>(
-    original: { Count: number; List: Array<U> },
+    original: { count: number; list: Array<U> },
     transfer: (obj: any) => U
   ): SearchResultEntity<U> {
     return new SearchResultEntity<U>({
-      Count: (original && original.Count) || 0,
-      List: ((original && original.List) || []).map(transfer)
+      count: (original && original.count) || 0,
+      list: ((original && original.list) || []).map(transfer)
     })
   }
 }

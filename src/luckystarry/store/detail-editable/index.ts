@@ -21,5 +21,7 @@ export {
   DetailEditableState
 } from './detail-editable-state'
 
+export { factory } from './factory'
+
 import * as types from './types'
 export { types }

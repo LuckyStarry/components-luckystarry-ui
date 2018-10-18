@@ -1,1 +1,1 @@
-export const DIALOG_VISIBLE = 'ls-dialog-visible'
+export const DIALOG_VISIBLE = 'dialog-visible'

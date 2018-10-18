@@ -1,13 +1,9 @@
-import { prefix } from './index'
-import * as token from './token'
-import { LoginUser } from 'luckystarry/models/login-user'
+import { prefix } from '.'
+import { LoginUser } from '../../models/login-user'
 const KEY_TOKEN_USER = 'user'
 
 function getKey(): string {
-  let _token = token.get()
-  if (_token) {
-    return `${prefix}_${KEY_TOKEN_USER}_${_token}`
-  }
+  return `${prefix}_${KEY_TOKEN_USER}`
 }
 
 export function set(user: LoginUser) {
@@ -37,7 +33,7 @@ export function clear() {
 
 export function safty() {
   let keys = new Array<string>()
-  let reg = new RegExp(`^${prefix}_${KEY_TOKEN_USER}_.*`)
+  let reg = new RegExp(`^${prefix}_${KEY_TOKEN_USER}`)
   for (let i = 0; i < localStorage.length; i++) {
     let key = localStorage.key(i)
     if (key !== getKey() && reg.test(key)) {

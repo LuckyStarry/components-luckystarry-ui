@@ -1,16 +1,18 @@
 @import url('common.less');
 @height_header: 60px;
-@width_logo: 280px;
+@width_logo: 180px;
 @bg_color_front: #fff;
-@bg_color_background: #409EFF;
+@bg_color_background: #409eff;
+@bg_color_background_highlight: #3077bf;
+@bg_color_background_safe: #70b6ff;
 .full-width {
   width: 100%;
 }
 
-.el-container {
+.luckystarry-ui-container {
   position: relative;
   height: 100%;
-  .el-header {
+  .luckystarry-ui-header {
     background-color: @bg_color_background;
     color: @bg_color_front;
     .logo-span {
@@ -22,40 +24,26 @@
         display: inline-block;
         margin: 0;
       }
-      &>* {
+      & > * {
         vertical-align: middle;
       }
     }
     .section-menus {
       padding-left: @width_logo;
-      .el-menu.el-menu--horizontal {
-        background-color: transparent;
-        .el-menu-item,
-        .el-submenu>* {
+      ul.el-menu {
+        background-color: @bg_color_background;
+        li.el-menu-item {
           color: @bg_color_front;
-          .menu-icon,
-          .el-icon-arrow-up,
-          .el-icon-arrow-down {
+          i {
             color: @bg_color_front;
           }
-        }
-        &.is-active {
-          color: @bg_color_background;
-          .menu-icon,
-          .el-icon-arrow-up,
-          .el-icon-arrow-down {
-            color: @bg_color_background;
+          &.is-active {
+            color: @bg_color_front;
+            border-bottom-color: @bg_color_front;
+            background-color: @bg_color_background_safe;
           }
-        }
-        .el-menu-item:hover,
-        .el-menu-item:focus,
-        .el-submenu:hover>*,
-        .el-submenu:focus>* {
-          color: @bg_color_background;
-          .menu-icon,
-          .el-icon-arrow-up,
-          .el-icon-arrow-down {
-            color: @bg_color_background;
+          &:hover {
+            background-color: @bg_color_background_highlight;
           }
         }
       }
@@ -68,8 +56,20 @@
       line-height: @height_header;
       padding-right: 15px;
       .el-button--text {
-        color: #fff;
+        color: @bg_color_front;
       }
+    }
+  }
+
+  .luckystarry-ui-aside {
+    > .el-menu {
+      height: 100%;
+    }
+  }
+
+  .luckystarry-ui-main {
+    .breadcrumb-panel {
+      margin-bottom: 1em;
     }
   }
 }

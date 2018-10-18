@@ -6,13 +6,5 @@ export interface IDialogState extends frame.IFrameState {
 }
 
 export class DialogState implements IDialogState {
-  private visible: boolean = false
-
-  public set [types.state.DIALOG_VISIBLE](value: boolean) {
-    this.visible = value
-  }
-
-  public get [types.state.DIALOG_VISIBLE](): boolean {
-    return this.visible
-  }
+  public [types.state.DIALOG_VISIBLE]: boolean = false
 }

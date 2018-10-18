@@ -59,3 +59,26 @@ export abstract class DetailActions<
     context.commit(types.mutations.SUBJECT_RESET, entity)
   }
 }
+
+export class DefaultDetailActions<
+  TEntity extends models.IEntity,
+  TState extends IDetailState<TEntity> = IDetailState<TEntity>,
+  TGetter extends IDetailGetter<TEntity, TState> = IDetailGetter<
+    TEntity,
+    TState
+  >,
+  TRootState extends frame.IFrameState = frame.IFrameState
+> extends DetailActions<TEntity, TState, TGetter, TRootState> {
+  public async [types.actions.API_LOAD](
+    context: frame.IFrameActionContext<TState, TGetter, TRootState>
+  ): Promise<models.IResponse<TEntity>> {
+    return models.Response.Create<TEntity>(
+      {
+        success: false,
+        message: '未实现的方法',
+        entity: {}
+      },
+      x => x as TEntity
+    )
+  }
+}

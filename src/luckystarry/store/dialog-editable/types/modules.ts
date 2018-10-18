@@ -1,1 +1,1 @@
-export const EDITOR = 'ls-editor'
+export const EDITOR = 'editor'

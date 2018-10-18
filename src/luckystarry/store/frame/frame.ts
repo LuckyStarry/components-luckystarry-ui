@@ -6,6 +6,7 @@ import { IFrameModuleOptions } from './frame-module-options'
 import { IFrameModules } from './frame-modules'
 import { IFrameMutations } from './frame-mutations'
 import { IFrameState } from './frame-state'
+import * as utils from './utils'
 
 export interface IFrame<
   TState extends IFrameState = IFrameState,
@@ -76,7 +77,7 @@ export class Frame<
       TModules
     >
   ) {
-    this.options = options
+    this.options = utils.OptionsMerge({}, options)
   }
 
   get namespaced(): boolean {

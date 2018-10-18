@@ -10,4 +10,5 @@ export { IFrameActionContext } from './frame-action-context'
 export { IFrameModuleOptions } from './frame-module-options'
 
 import * as types from './types'
-export { types }
+import * as utils from './utils'
+export { types, utils }

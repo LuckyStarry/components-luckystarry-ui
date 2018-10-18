@@ -1,2 +1,2 @@
-export const SUBJECT = 'ls-subject'
-export const LOADING_STATE = 'ls-loading-state'
+export const SUBJECT = 'subject'
+export const LOADING_STATE = 'loading-state'

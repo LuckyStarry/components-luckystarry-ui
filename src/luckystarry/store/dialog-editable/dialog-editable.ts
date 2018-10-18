@@ -1,12 +1,27 @@
 import * as models from '../../models'
 import * as dialog from '../dialog'
 import * as frame from '../frame'
-import { IDialogEditableActions } from './dialog-editable-actions'
+import {
+  IDialogEditableActions,
+  DialogEditableActions
+} from './dialog-editable-actions'
 import { IDialogEditableGetter } from './dialog-editable-getter'
-import { IDialogEditableGetters } from './dialog-editable-getters'
-import { IDialogEditableModules } from './dialog-editable-modules'
-import { IDialogEditableMutations } from './dialog-editable-mutations'
-import { IDialogEditableState } from './dialog-editable-state'
+import {
+  IDialogEditableGetters,
+  DialogEditableGetters
+} from './dialog-editable-getters'
+import {
+  IDialogEditableModules,
+  DefaultDialogEditableModules
+} from './dialog-editable-modules'
+import {
+  IDialogEditableMutations,
+  DialogEditableMutations
+} from './dialog-editable-mutations'
+import {
+  IDialogEditableState,
+  DialogEditableState
+} from './dialog-editable-state'
 export interface IDialogEditable<
   TEntity extends models.IEntity,
   TState extends IDialogEditableState<TEntity> = IDialogEditableState<TEntity>,
@@ -94,4 +109,39 @@ export class DialogEditable<
       TMutations,
       TModules,
       TRootState
-    > {}
+    > {
+  constructor(
+    options?: frame.IFrameModuleOptions<
+      TState,
+      TRootState,
+      TGetter,
+      TGetters,
+      TActions,
+      TMutations,
+      TModules
+    >
+  ) {
+    super(
+      frame.utils.OptionsMerge(
+        {
+          state: () => new DialogEditableState<TEntity>(),
+          getters: new DialogEditableGetters<
+            TEntity,
+            TState,
+            TGetter,
+            TRootState
+          >(),
+          actions: new DialogEditableActions<
+            TEntity,
+            TState,
+            TGetter,
+            TRootState
+          >(),
+          mutations: new DialogEditableMutations<TEntity, TState>(),
+          modules: new DefaultDialogEditableModules<TEntity, TRootState>()
+        },
+        options
+      )
+    )
+  }
+}

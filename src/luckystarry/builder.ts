@@ -1,50 +1,60 @@
 import ElementUI from 'element-ui'
-import { System } from 'luckystarry/impl/modules/system'
-import { MenuInfo } from 'luckystarry/models'
-import { frame } from 'luckystarry/store'
-import callback from 'luckystarry/ui/oauth/callback'
 import Vue, { VueConstructor } from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Vuex from 'vuex'
+import { types } from './store/root'
+import { MenuInfo } from './models'
+import { frame, root } from './store'
+import callback from './ui/oauth/callback'
 
 Vue.use(Vuex)
 Vue.use(VueRouter)
 Vue.use(ElementUI)
 
 export default class builder {
-  private _callbackUrl: string
+  private _callback: string
   private _modules: { [key: string]: any }
   private _menus: MenuInfo[]
 
-  modules(modules: { [key: string]: frame.IFrame }): builder {
+  public Modules(modules: { [key: string]: frame.IFrame }): builder {
     this._modules = Object.assign({}, modules)
     return this
   }
 
-  callbackUrl(callbackUrl: string): builder {
-    this._callbackUrl = callbackUrl
+  public Callback(callbackUrl: string): builder {
+    this._callback = callbackUrl
     return this
   }
 
-  menus(...menus: MenuInfo[]): builder {
+  public Menus(...menus: MenuInfo[]): builder {
     this._menus = menus || []
     return this
   }
 
-  build(app: VueConstructor<Vue>, configs?: { el?: string }) {
+  public Build(app: VueConstructor<Vue>, configs?: { el?: string }) {
     configs = Object.assign({ el: '#app' }, configs)
-    let routes = menusToRoutes(this._menus)
+    let menus = this._menus
+    let routes = menusToRoutes(menus)
     routes.push({
-      path: this._callbackUrl,
+      path: this._callback,
       meta: { title: '登陆成功' },
       component: callback
     })
-    const store = new Vuex.Store({
-      modules: Object.assign({ ['system']: new System() }, this._modules)
-    })
     const router = new VueRouter({ mode: 'history', routes })
+    const states = new root.Root(menus, this._modules)
+    const store = new Vuex.Store(states)
 
-    return new Vue({ el: configs.el, store, router, render: h => h(app) })
+    router.afterEach((to, from) => {
+      let paths = deepFind(menus, to.meta.uid)
+      store.commit(types.mutations.ACTIVED_MENUS_RESET, paths)
+    })
+
+    return new Vue({
+      el: configs.el,
+      store,
+      router,
+      render: h => h(app)
+    })
   }
 }
 
@@ -54,7 +64,7 @@ function menusToRoutes(menus: MenuInfo[]): RouteConfig[] {
     if (menu.Component) {
       routes.push({
         path: menu.Path,
-        meta: { title: menu.Title },
+        meta: { title: menu.Title, uid: menu.uuid },
         component: menu.Component
       })
     }
@@ -65,4 +75,20 @@ function menusToRoutes(menus: MenuInfo[]): RouteConfig[] {
     }
   }
   return routes
+}
+
+function deepFind(menus: MenuInfo[], uid: string): MenuInfo[] {
+  if (menus && menus.length && uid) {
+    for (let i = 0; i < menus.length; i++) {
+      let menu = menus[i]
+      if (menu.uuid === uid) {
+        return [menu]
+      }
+      let child = deepFind(menu.Children, uid)
+      if (child && child.length) {
+        return [menu, ...child]
+      }
+    }
+  }
+  return []
 }

@@ -7,7 +7,7 @@ export async function post(
   config?: AxiosRequestConfig,
   options?: { smart?: boolean; stringify?: boolean }
 ) {
-  options = Object.assign({ stringify: true }, options)
+  options = Object.assign({ stringify: false }, options)
   let xdata = data
   if (xdata && options.stringify) {
     xdata = qs.stringify(data)

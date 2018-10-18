@@ -8,3 +8,6 @@ export { IDetailState, DetailState } from './detail-state'
 
 import * as types from './types'
 export { types }
+
+import * as editable from '../detail-editable'
+export { editable }

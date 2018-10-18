@@ -6,6 +6,6 @@
   </section>
 </template>
 <script>
-  import { LsFrame } from './component'
+  import { LsFrame } from './ls-frame'
   export default LsFrame
 </script>

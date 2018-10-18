@@ -1,4 +1,5 @@
-export const TABLE_LIST = 'ls-table-list'
-export const TABLE_LIST_TOTAL = 'ls-table-list-total'
-export const SEARCHING_STATE = 'ls-searching-state'
-export const SEARCH_QUERY_MODEL = 'ls-search-query-model'
+import * as list from '../../list/types'
+export const TABLE_LIST = list.state.TABLE_LIST
+export const TABLE_LIST_TOTAL = list.state.TABLE_LIST_TOTAL
+export const SEARCHING_STATE = list.state.SEARCHING_STATE
+export const SEARCH_QUERY_MODEL = list.state.SEARCH_QUERY_MODEL

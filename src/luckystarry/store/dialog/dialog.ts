@@ -1,10 +1,10 @@
 import * as frame from '../frame'
-import { IDialogActions } from './dialog-actions'
+import { IDialogActions, DialogActions } from './dialog-actions'
 import { IDialogGetter } from './dialog-getter'
-import { IDialogGetters } from './dialog-getters'
+import { IDialogGetters, DialogGetters } from './dialog-getters'
 import { IDialogModules } from './dialog-modules'
-import { IDialogMutations } from './dialog-mutations'
-import { IDialogState } from './dialog-state'
+import { IDialogMutations, DialogMutations } from './dialog-mutations'
+import { IDialogState, DialogState } from './dialog-state'
 export interface IDialog<
   TState extends IDialogState = IDialogState,
   TGetter extends IDialogGetter<TState> = IDialogGetter<TState>,
@@ -67,4 +67,28 @@ export class Dialog<
       TMutations,
       TModules,
       TRootState
-    > {}
+    > {
+  constructor(
+    options?: frame.IFrameModuleOptions<
+      TState,
+      TRootState,
+      TGetter,
+      TGetters,
+      TActions,
+      TMutations,
+      TModules
+    >
+  ) {
+    super(
+      frame.utils.OptionsMerge(
+        {
+          state: () => new DialogState(),
+          getters: new DialogGetters<TState, TGetter, TRootState>(),
+          actions: new DialogActions<TState, TGetter, TRootState>(),
+          mutations: new DialogMutations<TState>()
+        },
+        options
+      )
+    )
+  }
+}

@@ -1,11 +1,11 @@
 import * as frame from '../frame'
 import * as models from '../../models'
-import { IListState } from './list-state'
+import { IListState, ListState } from './list-state'
 import { IListGetter } from './list-getter'
-import { IListGetters } from './list-getters'
-import { IListActions } from './list-actions'
+import { IListGetters, ListGetters } from './list-getters'
+import { IListActions, DefaultListActions } from './list-actions'
 import { IListModules } from './list-modules'
-import { IListMutations } from './list-mutations'
+import { IListMutations, ListMutations } from './list-mutations'
 export interface IList<
   TEntity extends models.IEntity,
   TQuery extends models.IQuery = models.IQuery,
@@ -43,7 +43,8 @@ export interface IList<
       TRootState,
       TGetters,
       TActions,
-      TMutations
+      TMutations,
+      TModules
     > {}
 
 export class List<
@@ -97,4 +98,34 @@ export class List<
       TMutations,
       TModules,
       TRootState
-    > {}
+    > {
+  constructor(
+    options?: frame.IFrameModuleOptions<
+      TState,
+      TRootState,
+      TGetter,
+      TGetters,
+      TActions,
+      TMutations,
+      TModules
+    >
+  ) {
+    super(
+      frame.utils.OptionsMerge(
+        {
+          state: () => new ListState<TEntity, TQuery>(),
+          getters: new ListGetters<
+            TEntity,
+            TQuery,
+            TState,
+            TGetter,
+            TRootState
+          >(),
+          actions: new DefaultListActions(),
+          mutations: new ListMutations()
+        },
+        options
+      )
+    )
+  }
+}

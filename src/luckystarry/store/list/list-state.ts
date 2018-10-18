@@ -16,40 +16,30 @@ export class ListState<
   TEntity extends models.IEntity,
   TQuery extends models.IQuery = models.IQuery
 > implements IListState<TEntity, TQuery> {
-  private list: Array<TEntity> = []
-  private count: number = 0
-  private searching: boolean = false
-  private query: TQuery
+  // tslint:disable-next-line:semicolon
+  public [types.state.TABLE_LIST]: Array<TEntity> = [];
+  // tslint:disable-next-line:semicolon
+  public [types.state.TABLE_LIST_TOTAL]: number = 0;
+  // tslint:disable-next-line:semicolon
+  public [types.state.SEARCHING_STATE]: boolean = false;
+  public [types.state.SEARCH_QUERY_MODEL]: TQuery
 
-  public set [types.state.TABLE_LIST](value: Array<TEntity>) {
-    this.list = value || []
-  }
-
-  public get [types.state.TABLE_LIST](): Array<TEntity> {
-    return this.list
-  }
-
-  public set [types.state.TABLE_LIST_TOTAL](value: number) {
-    this.count = value
-  }
-
-  public get [types.state.TABLE_LIST_TOTAL](): number {
-    return this.count
-  }
-
-  public set [types.state.SEARCH_QUERY_MODEL](value: TQuery) {
-    this.query = value
-  }
-
-  public get [types.state.SEARCH_QUERY_MODEL](): TQuery {
-    return this.query
-  }
-
-  public set [types.state.SEARCHING_STATE](value: boolean) {
-    this.searching = value
-  }
-
-  public get [types.state.SEARCHING_STATE](): boolean {
-    return this.searching
+  public constructor(options?: {
+    list?: Array<TEntity>
+    count?: number
+    searching?: boolean
+    query?: TQuery
+  }) {
+    if (options) {
+      if (options.list) {
+        this[types.state.TABLE_LIST] = options.list
+      }
+      if (options.count) {
+        this[types.state.TABLE_LIST_TOTAL] = options.count
+      }
+      if (options.query) {
+        this[types.state.SEARCH_QUERY_MODEL] = options.query
+      }
+    }
   }
 }

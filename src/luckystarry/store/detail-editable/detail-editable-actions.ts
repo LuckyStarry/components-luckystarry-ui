@@ -4,7 +4,7 @@ import * as frame from '../frame'
 import { IDetailEditableGetter } from './detail-editable-getter'
 import { IDetailEditableState } from './detail-editable-state'
 import * as types from './types'
-console.log(detail)
+import { Notification } from 'element-ui'
 export interface IDetailEditableActions<
   TEntity extends models.IEntity,
   TState extends IDetailEditableState<TEntity> = IDetailEditableState<TEntity>,
@@ -16,7 +16,10 @@ export interface IDetailEditableActions<
 > extends detail.IDetailActions<TEntity, TState, TGetter, TRootState> {
   [types.actions.SAVE](
     context: frame.IFrameActionContext<TState, TGetter, TRootState>
-  ): Promise<models.IResponse<TEntity>>
+  ): Promise<TEntity>
+  [types.actions.CORE_SAVE](
+    context: frame.IFrameActionContext<TState, TGetter, TRootState>
+  ): Promise<TEntity>
 }
 
 export abstract class DetailEditableActions<
@@ -31,10 +34,45 @@ export abstract class DetailEditableActions<
   implements IDetailEditableActions<TEntity, TState, TGetter, TRootState> {
   public async [types.actions.SAVE](
     context: frame.IFrameActionContext<TState, TGetter, TRootState>
-  ): Promise<models.IResponse<TEntity>> {
+  ): Promise<TEntity> {
+    try {
+      let entity: TEntity = await context.dispatch(
+        detail.editable.types.actions.CORE_SAVE
+      )
+      if (entity) {
+        await context.dispatch(types.actions.SUBJECT_RESET, entity)
+        return entity
+      }
+    } catch (error) {
+      context.dispatch(frame.types.actions.ON_EXCEPTION, error)
+    }
+  }
+  public async [types.actions.CORE_SAVE](
+    context: frame.IFrameActionContext<TState, TGetter, TRootState>
+  ): Promise<TEntity> {
     try {
       context.commit(types.mutations.SAVING_STATE_UPDATE, true)
-      return await context.dispatch(types.actions.API_SAVE)
+
+      let response = await frame.utils.ApiProxy<TEntity>(
+        context,
+        async () => await context.dispatch(types.actions.API_SAVE)
+      )
+      if (response.IsSuccessful) {
+        if (response.Message) {
+          Notification.success({
+            title: '保存成功',
+            message: response.Message
+          })
+        }
+        return response.Entity
+      } else {
+        if (response.Message) {
+          Notification.error({
+            title: '保存失败',
+            message: response.Message
+          })
+        }
+      }
     } catch (error) {
       context.dispatch(frame.types.actions.ON_EXCEPTION, error)
     } finally {
@@ -46,11 +84,49 @@ export abstract class DetailEditableActions<
     context: frame.IFrameActionContext<TState, TGetter, TRootState>
   ): Promise<models.IResponse<TEntity>>
 
-  public [detail.types.actions.SUBJECT_RESET](
+  public [types.actions.SUBJECT_RESET](
     context: frame.IFrameActionContext<TState, TGetter, TRootState>,
     entity: TEntity
   ) {
     context.commit(detail.types.mutations.SUBJECT_RESET, entity.Clone())
     context.commit(types.mutations.ORIGINAL_RESET, entity)
+  }
+}
+
+export class DefaultDetailEditableActions<
+  TEntity extends models.IEntity,
+  TState extends IDetailEditableState<TEntity> = IDetailEditableState<TEntity>,
+  TGetter extends IDetailEditableGetter<
+    TEntity,
+    TState
+  > = IDetailEditableGetter<TEntity, TState>,
+  TRootState extends frame.IFrameState = frame.IFrameState
+> extends DetailEditableActions<TEntity, TState, TGetter, TRootState> {
+  public async [types.actions.API_SAVE](
+    context: frame.IFrameActionContext<TState, TGetter, TRootState>
+  ): Promise<models.IResponse<TEntity>> {
+    return models.Response.Create<TEntity>(
+      {
+        success: false,
+        message: '未实现的方法',
+        entity: {}
+      },
+      x => x as TEntity
+    )
+  }
+  public async [types.actions.API_LOAD](
+    context: frame.IFrameActionContext<TState, TGetter, TRootState>
+  ): Promise<models.IResponse<TEntity>> {
+    return models.Response.Create<TEntity>(
+      {
+        success: false,
+        message: '未实现的方法',
+        entity: {}
+      },
+      x => x as TEntity
+    )
+  }
+  constructor() {
+    super()
   }
 }

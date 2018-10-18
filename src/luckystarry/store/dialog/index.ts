@@ -8,3 +8,6 @@ export { IDialogMutations, DialogMutations } from './dialog-mutations'
 
 import * as types from './types'
 export { types }
+
+import * as editable from '../dialog-editable'
+export { editable }

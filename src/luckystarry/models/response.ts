@@ -2,39 +2,67 @@ export interface IResponse<T> {
   readonly IsSuccessful: boolean
   readonly Message: string
   readonly Entity: T
+  readonly Type: number
+  readonly Code: string
 }
 
 export class Response<T> {
-  private readonly _isSuccessful: boolean
-  private readonly _message: string
-  private readonly _entity: T
+  private readonly success: boolean
+  private readonly message: string
+  private readonly entity: T
+  private readonly type: number
+  private readonly code: string
 
-  constructor(original: { IsSuccessful: boolean; Message: string; Entity: T }) {
-    this._isSuccessful = original.IsSuccessful
-    this._message = original.Message || ''
-    this._entity = original.Entity
+  constructor(original: {
+    success: boolean
+    message: string
+    entity: T
+    type?: number
+    code?: string
+  }) {
+    this.success = original.success
+    this.message = original.message || ''
+    this.entity = original.entity
+    this.type = original.type || 0
+    this.code = original.code || '0000'
   }
 
   public get IsSuccessful(): boolean {
-    return this._isSuccessful
+    return this.success
   }
 
   public get Message(): string {
-    return this._message
+    return this.message
   }
 
   public get Entity(): T {
-    return this._entity
+    return this.entity
+  }
+
+  public get Type(): number {
+    return this.type
+  }
+
+  public get Code(): string {
+    return this.code
   }
 
   public static Create<U>(
-    original: { IsSuccessful: boolean; Message: string; Entity: any },
+    original: {
+      success: boolean
+      message: string
+      entity: any
+      type?: number
+      code?: string
+    },
     transfer: (obj: any) => U
   ): Response<U> {
     return new Response<U>({
-      IsSuccessful: original.IsSuccessful,
-      Message: original.Message,
-      Entity: transfer(original.Entity)
+      success: original.success,
+      message: original.message,
+      entity: transfer(original.entity),
+      type: original.type,
+      code: original.code
     })
   }
 }

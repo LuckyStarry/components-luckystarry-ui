@@ -10,22 +10,7 @@ export interface IDetailState<TEntity extends models.IEntity>
 
 export class DetailState<TEntity extends models.IEntity>
   implements IDetailState<TEntity> {
-  private subject: TEntity
-  private loading: boolean = false
-
-  public set [types.state.SUBJECT](value: TEntity) {
-    this.subject = value
-  }
-
-  public get [types.state.SUBJECT](): TEntity {
-    return this.subject
-  }
-
-  public set [types.state.LOADING_STATE](value: boolean) {
-    this.loading = value
-  }
-
-  public get [types.state.LOADING_STATE](): boolean {
-    return this.loading
-  }
+  // tslint:disable-next-line:semicolon
+  public [types.state.SUBJECT]: TEntity = {} as TEntity;
+  public [types.state.LOADING_STATE]: boolean = false
 }

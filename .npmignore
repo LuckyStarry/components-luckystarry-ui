@@ -1,8 +1,4 @@
-.vscode/
-node_modules/
-src/
-.babellrc
-.jsbeautifyrc
-tsconfig.json
-tslint.json
-webpack.release.config.js
+.vscode
+node_modules
+dist
+npm-debug.log*
