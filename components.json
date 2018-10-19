@@ -1,0 +1,5 @@
+{
+  "ls-frame": "./src/luckystarry/ui/frame/ls-frame",
+  "ls-list": "./src/luckystarry/ui/frame/ls-list",
+  "ls-list-editable": "./src/luckystarry/ui/frame/ls-list-editable"
+}
