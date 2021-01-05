@@ -15,7 +15,7 @@
   "author": "SUN BO",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "element-ui": "^2.3.8",
     "qs": "^6.5.2",
     "uuid": "^3.2.1",
